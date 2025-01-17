@@ -1,0 +1,83 @@
+[
+    {
+      "name": "Campeonato Nacional de Liga",
+      "description": "Máxima competición del fútbol español, conocida como LaLiga.",
+      "amount": 11,
+      "years": [
+        1939, 1941, 1950, 1951, 1966, 1970, 1973, 1977, 1996, 2014, 2021
+      ],
+      "type": "Nacional",
+      "image": "copa_laliga.jpg"
+    },
+    {
+      "name": "Copa del Rey",
+      "description": "Principal competición de copa en España.",
+      "amount": 10,
+      "years": [
+        1960, 1961, 1965, 1972, 1976, 1985, 1991, 1992, 1996, 2013
+      ],
+      "type": "Nacional",
+      "image": "copa_rey.jpg"
+    },
+    {
+      "name": "Supercopa de España",
+      "description": "Competición que enfrenta al campeón de LaLiga y al campeón de la Copa del Rey.",
+      "amount": 2,
+      "years": [
+        1985, 2014
+      ],
+      "type": "Nacional",
+      "image": "copa_supercopaespana.jpg"
+    },
+    {
+      "name": "Copa Eva Duarte",
+      "description": "Predecesora de la Supercopa de España.",
+      "amount": 1,
+      "years": [
+        1951
+      ],
+      "type": "Nacional",
+      "image": "copa_eva.jpg"
+    },
+    {
+      "name": "UEFA Europa League",
+      "description": "Segunda competición de clubes más prestigiosa de Europa.",
+      "amount": 3,
+      "years": [
+        2010, 2012, 2018
+      ],
+      "type": "Continental",
+      "image": "copa_europaleague.jpg"
+    },
+    {
+      "name": "Supercopa de Europa",
+      "description": "Competición que enfrenta al campeón de la UEFA Champions League y al campeón de la UEFA Europa League.",
+      "amount": 3,
+      "years": [
+        2010, 2012, 2018
+      ],
+      "type": "Continental",
+      "image": "copa_supercopaeuropa.jpg"
+    },
+    {
+      "name": "Recopa de Europa",
+      "description": "Competición europea de clubes que se disputaba entre los ganadores de las copas nacionales.",
+      "amount": 1,
+      "years": [
+        1962
+      ],
+      "type": "Continental",
+      "image": "copa_recopa.jpg"
+    },
+    {
+      "name": "Copa Intercontinental",
+      "description": "Competición que enfrentaba al campeón de la UEFA Champions League y al campeón de la Copa Libertadores.",
+      "amount": 1,
+      "years": [
+        1974
+      ],
+      "type": "Mundial",
+      "image": "copa_intercontinental.jpg"
+    }
+  ]
+  

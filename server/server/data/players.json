@@ -1,0 +1,91 @@
+[
+    {
+      "name": "Jan Oblak",
+      "age": 32,
+      "height": "1.88 m",
+      "weight": "87 kg",
+      "position": "Portero",
+      "image": "jan_oblak.png"
+    },
+    {
+      "name": "Nahuel Molina",
+      "age": 27,
+      "height": "1.75 m",
+      "weight": "70 kg",
+      "position": "Defensa Derecho",
+      "image": "nahuel_molina.png"
+    },
+    {
+      "name": "César Azpilicueta",
+      "age": 35,
+      "height": "1.78 m",
+      "weight": "78 kg",
+      "position": "Defensa Central",
+      "image": "cesar_azpilicueta.png"
+    },
+    {
+      "name": "Robin Le Normand",
+      "age": 28,
+      "height": "1.87 m",
+      "weight": "82 kg",
+      "position": "Defensa Central",
+      "image": "robin_lenormand.png"
+    },
+    {
+      "name": "Javi Galán",
+      "age": 30,
+      "height": "1.72 m",
+      "weight": "68 kg",
+      "position": "Defensa Izquierdo",
+      "image": "javi_galan.png"
+    },
+    {
+      "name": "Marcos Llorente",
+      "age": 29,
+      "height": "1.84 m",
+      "weight": "74 kg",
+      "position": "Centrocampista",
+      "image": "marcos_llorente.png"
+    },
+    {
+      "name": "Rodrigo de Paul",
+      "age": 30,
+      "height": "1.80 m",
+      "weight": "70 kg",
+      "position": "Centrocampista",
+      "image": "rodrigo_depaul.png"
+    },
+    {
+      "name": "Pablo Barrios",
+      "age": 22,
+      "height": "1.80 m",
+      "weight": "70 kg",
+      "position": "Centrocampista",
+      "image": "pablo_barrios.png"
+    },
+    {
+      "name": "Antoine Griezmann",
+      "age": 33,
+      "height": "1.76 m",
+      "weight": "73 kg",
+      "position": "Delantero",
+      "image": "antoine_griezmann.png"
+    },
+    {
+      "name": "Julián Álvarez",
+      "age": 25,
+      "height": "1.70 m",
+      "weight": "71 kg",
+      "position": "Delantero",
+      "image": "julian_alvarez.png"
+    },
+    {
+      "name": "Samuel Lino",
+      "age": 25,
+      "height": "1.73 m",
+      "weight": "66 kg",
+      "position": "Extremo Izquierdo",
+      "image": "samuel_lino.png"
+    }
+  ]
+  
