@@ -15,7 +15,7 @@ class DesktopLayout extends StatefulWidget {
 class _DesktopLayout extends State<DesktopLayout> {
   String? selectedCategory = 'Players';
   dynamic selectedItem;
-
+  
   @override
   void initState() {
     super.initState();
@@ -32,7 +32,7 @@ class _DesktopLayout extends State<DesktopLayout> {
   dynamic _getItem(dynamic item) {
     if (item is Player || item is Manager || item is Trophy) {
       return item;
-    } else {
+    } else{
       return null;
     }
   }
@@ -57,30 +57,28 @@ class _DesktopLayout extends State<DesktopLayout> {
     });
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     const Color color1 = Colors.red; // Color del AppBar
     const Color color2 = Colors.white; // Color de fondo general
     const Color color3 = Colors.indigo; // Color del DropDown
-    const Color color4 = Colors.yellow; // Color del titulo
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Atletico De Madrid DB',
           style: TextStyle(
             fontSize: 24, // Tamaño de la fuente
-            fontWeight:
-                FontWeight.bold, // Estilo de la fuente (negrita, por ejemplo)
-            fontFamily:
-                'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
-            color: color4, // Color del texto
+            fontWeight: FontWeight.bold, // Estilo de la fuente (negrita, por ejemplo)
+            fontFamily: 'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
+            color: color2, // Color del texto
           ),
         ),
         centerTitle: true,
-        backgroundColor: color3,
+        backgroundColor: color1,
       ),
       body: Container(
-        color: color2,
+        color:  color2,
         child: Row(
           children: [
             Container(
@@ -89,9 +87,9 @@ class _DesktopLayout extends State<DesktopLayout> {
               child: Column(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Expanded(
-                          child: DropdownButton<String>(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Expanded(
+                      child: DropdownButton<String>(
                         dropdownColor: color3,
                         value: selectedCategory,
                         hint: const Text('Selecciona una categoría'),
@@ -103,17 +101,17 @@ class _DesktopLayout extends State<DesktopLayout> {
                               category,
                               style: const TextStyle(
                                 fontSize: 24, // Tamaño de la fuente
-                                fontWeight: FontWeight
-                                    .bold, // Estilo de la fuente (negrita, por ejemplo)
-                                fontFamily:
-                                    'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
+                                fontWeight: FontWeight.bold, // Estilo de la fuente (negrita, por ejemplo)
+                                fontFamily: 'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
                                 color: color2, // Color del texto
                               ),
                             ),
                           );
                         }).toList(),
                         onChanged: _onCategoryChanged,
-                      ))),
+                      )
+                    )
+                  ),
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(14.0),
@@ -121,14 +119,11 @@ class _DesktopLayout extends State<DesktopLayout> {
                       itemBuilder: (context, index) {
                         final item = currentList[index];
                         return GestureDetector(
-                          onTap: () =>
-                              setState(() => selectedItem = item),
+                          onTap: () => setState(() => selectedItem = item),
                           child: Container(
-                            margin: const EdgeInsets.only(
-                                bottom: 14.0, left: 4, top: 0, right: 0),
+                            margin: const EdgeInsets.only(bottom: 14.0, left: 4, top: 0, right: 0),
                             child: Row(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.network(
                                   'http://localhost:3000/images/${_getItem(item).image}',
@@ -154,8 +149,7 @@ class _DesktopLayout extends State<DesktopLayout> {
                                       );
                                     }
                                   },
-                                  errorBuilder:
-                                      (context, error, stackTrace) {
+                                  errorBuilder: (context, error, stackTrace) {
                                     return const Text(
                                         'ERROR trying to load an image');
                                   },
@@ -166,38 +160,43 @@ class _DesktopLayout extends State<DesktopLayout> {
                                     _getItem(item).name,
                                     style: const TextStyle(
                                       fontSize: 18, // Tamaño de la fuente
-                                      fontWeight: FontWeight
-                                          .bold, // Estilo de la fuente (negrita, por ejemplo)
-                                      fontFamily:
-                                          'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
+                                      fontWeight: FontWeight.bold, // Estilo de la fuente (negrita, por ejemplo)
+                                      fontFamily: 'Roboto', // Tipografía (puedes cambiarla o usar una personalizada)
                                       color: color2, // Color del texto
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ));
-                    }))
+                          )
+                        );
+                      }
+                    )
+                  )
                 ],
               ),
             ),
+            // Imagen que ocupa el resto del espacio
+            Stack(
+              children: [
+                // Fondo con imagen
+                Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/fondo_estadio.jpg'),
+                      fit: BoxFit.cover, // Ajusta la imagen al espacio disponible
+                    ),
+                  ),
+                ),
+                
                 // Información encima de la imagen
-                Expanded(
-                  child: Stack(
-                    children: [
-                      // Imagen de fondo
-                      Positioned.fill(
-                        child: Image.asset(
-                          'assets/images/fondo_estadio.jpg', // Ruta de tu imagen en la carpeta assets
-                          fit: BoxFit.cover, // Para que la imagen se ajuste al tamaño del contenedor
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: selectedItem != null
-                        ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: selectedItem != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
                           Image.network(
                             'http://localhost:3000/images/${_getItem(selectedItem).image}',
                             width: 340,
@@ -222,14 +221,14 @@ class _DesktopLayout extends State<DesktopLayout> {
                           ),
                           const SizedBox(height: 20),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 30),
+                            padding: const EdgeInsets.symmetric(vertical: 30),
                             child: Text(
                               'Name: ${_getItem(selectedItem).name}',
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
 
+                          
                           //SI EL OBJETO ES UN ENTRENADOR
                           if (selectedItem is Manager)
                             Column(
@@ -238,32 +237,27 @@ class _DesktopLayout extends State<DesktopLayout> {
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Years on the Club: ${selectedItem.years.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'StyleGame: ${selectedItem.style.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Amount of Trophies: ${selectedItem.trophies.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                               ],
                             )
 
+                            
                           //SI EL OBJETO ES UN JUGADOR
                           else if (selectedItem is Player)
                             Column(
@@ -272,40 +266,33 @@ class _DesktopLayout extends State<DesktopLayout> {
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Age: ${selectedItem.age.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Height: ${selectedItem.height.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Weight: ${selectedItem.weight.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Position: ${selectedItem.position.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                               ],
                             )
+
 
                           //SI EL OBJETO ES UN TROFEO
                           else if (selectedItem is Trophy)
@@ -315,54 +302,41 @@ class _DesktopLayout extends State<DesktopLayout> {
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Description: ${selectedItem.description.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Amount of wined trophies: ${selectedItem.amount.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Years that wined this trophie: ${selectedItem.years.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Text(
                                     'Type of cometition: ${selectedItem.type.toString()}',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: "Calibri"),
+                                    style: const TextStyle(fontSize: 16, fontFamily: "Calibri"),
                                   ),
                                 ),
                               ],
                             ),
                         ],
                       )
-                    : const Center(
-                      child: Text(
+                    : const Text(
                         'Selecciona un elemento para ver los detalles',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white, // Ajusta el color para que contraste con el fondo
-                        ),
+                        style: TextStyle(fontSize: 20),
                       ),
-                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
