@@ -59,9 +59,9 @@ class _DesktopLayout extends State<DesktopLayout> {
 
   @override
   Widget build(BuildContext context) {
-    const Color color1 = Colors.red; // Color del AppBar
+    const Color color1 = Color.fromARGB(255, 238, 100, 90); // Color del AppBar
     const Color color2 = Colors.white; // Color de fondo general
-    const Color color3 = Colors.indigo; // Color del DropDown
+    const Color color3 = Color.fromARGB(255, 51, 68, 160); // Color del DropDown
     const Color color4 = Colors.yellow; // Color del título
 
     return Scaffold(
@@ -190,87 +190,161 @@ class _DesktopLayout extends State<DesktopLayout> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: selectedItem != null
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.network(
-                                'http://localhost:3000/images/${_getItem(selectedItem).image}',
-                                width: 340,
-                                height: 340,
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                (loadingProgress
-                                                        .expectedTotalBytes ??
-                                                    1)
-                                            : null,
-                                      ),
-                                    );
-                                  }
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Text(
-                                    'ERROR trying to load an image',
-                                  );
-                                },
+                  Center(
+                    child:Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: selectedItem != null
+                          ?  Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.network(
+                                    'http://localhost:3000/images/${_getItem(selectedItem).image}',
+                                    width: 340,
+                                    height: 340,
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                                : null,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Text(
+                                        'ERROR trying to load an image',
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    '${_getItem(selectedItem).name}',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Roboto',
+                                      color: color2,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  if (selectedItem is Manager)
+                                    Column(
+                                      children: [
+                                        Text('Years on the Club: ${selectedItem.years}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('StyleGame: ${selectedItem.style}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Trophies: ${selectedItem.trophies}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else if (selectedItem is Player)
+                                    Column(
+                                      children: [
+                                        Text('Age: ${selectedItem.age}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Height: ${selectedItem.height}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Weight: ${selectedItem.weight}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Position: ${selectedItem.position}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else if (selectedItem is Trophy)
+                                    Column(
+                                      children: [
+                                        Text('Description: ${selectedItem.description}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Amount of Wined: ${selectedItem.amount}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Years Winded: ${selectedItem.years}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                        Text('Competition Type: ${selectedItem.type}',
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Roboto',
+                                            color: color2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              )
+                          : const Center(
+                              child: Text(
+                                'Selecciona un elemento para ver los detalles',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
                               ),
-                              const SizedBox(height: 20),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 30,
-                                ),
-                                child: Text(
-                                  'Name: ${_getItem(selectedItem).name}',
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ),
-                              if (selectedItem is Manager)
-                                Column(
-                                  children: [
-                                    Text('Years on the Club: ${selectedItem.years}'),
-                                    Text('StyleGame: ${selectedItem.style}'),
-                                    Text('Trophies: ${selectedItem.trophies}'),
-                                  ],
-                                )
-                              else if (selectedItem is Player)
-                                Column(
-                                  children: [
-                                    Text('Age: ${selectedItem.age}'),
-                                    Text('Height: ${selectedItem.height}'),
-                                    Text('Weight: ${selectedItem.weight}'),
-                                    Text('Position: ${selectedItem.position}'),
-                                  ],
-                                )
-                              else if (selectedItem is Trophy)
-                                Column(
-                                  children: [
-                                    Text('Description: ${selectedItem.description}'),
-                                    Text('Amount of Wined: ${selectedItem.amount}'),
-                                    Text('Years Winded: ${selectedItem.years}'),
-                                    Text('Copetition Type: ${selectedItem.type}'),
-                                  ],
-                                ),
-                            ],
-                          )
-                        : const Center(
-                            child: Text(
-                              'Selecciona un elemento para ver los detalles',
-                              style: TextStyle(fontSize: 20, color: Colors.white),
                             ),
-                          ),
-                  ),
+                    ),
+                  )
                 ],
               ),
             ),
