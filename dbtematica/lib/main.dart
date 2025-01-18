@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'Player.dart';
-import 'Manager.dart';
-import 'Trophy.dart';
-import 'desktop_layout.dart';
 import 'package:provider/provider.dart';
 import 'AppData.dart';
+import 'desktop_layout.dart';
 
 void main() {
   runApp(
@@ -38,68 +33,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool isDataLoaded = false;
-
   @override
   void initState() {
     super.initState();
-    _loadData();
+    _loadAppData();
   }
 
-  // Cargar los datos de forma asíncrona
-  Future<void> _loadData() async {
-    await Future.wait([
-      getData('Players'),
-      getData('Managers'),
-      getData('Trophies'),
-    ]);
-    setState(() {
-      isDataLoaded = true;
-    });
+  // Llama al método de AppData para cargar datos
+  void _loadAppData() {
+    final appData = Provider.of<AppData>(context, listen: false);
+    appData.loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: isDataLoaded
-          ? LayoutBuilder(
-              builder: (context, constraints) {
-                // if (constraints.maxWidth > 450) {
-                  return const DesktopLayout();
-                // } else {
-                //   return const ViewMobile();
-                // }
-              },
-            )
-          : const Center(child: CircularProgressIndicator()),
+    return Consumer<AppData>(
+      builder: (context, appData, child) {
+        return Scaffold(
+          body: appData.isDataLoaded
+              ? LayoutBuilder(
+                  builder: (context, constraints) {
+                    return const DesktopLayout();
+                  },
+                )
+              : const Center(child: CircularProgressIndicator()),
+        );
+      },
     );
-  }
-
-  Future<void> getData(String type) async {
-    try {
-      final response =
-          await http.post(Uri.parse('http://localhost:3000/api/$type'));
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        if (type == 'Players') {
-          final parsedPlayers =
-              data.map<Player>((item) => Player.fromJson(item)).toList();
-          Provider.of<AppData>(context, listen: false).setPlayers(parsedPlayers);
-        } else if (type == 'Managers') {
-          final parsedManagers =
-              data.map<Manager>((item) => Manager.fromJson(item)).toList();
-          Provider.of<AppData>(context, listen: false)
-              .setManagers(parsedManagers);
-        } else if (type == 'Trophies') {
-          final parsedTrophies =
-              data.map<Trophy>((item) => Trophy.fromJson(item)).toList();
-          Provider.of<AppData>(context, listen: false)
-              .setTrophies(parsedTrophies);
-        }
-      }
-    } catch (error) {
-      print('Error getting data: $error');
-    }
   }
 }
