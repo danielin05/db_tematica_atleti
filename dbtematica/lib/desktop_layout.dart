@@ -20,25 +20,27 @@ class _DesktopLayout extends State<DesktopLayout> {
   TextEditingController _searchController = TextEditingController(); // Controlador para la búsqueda
 
   @override
-void initState() {
-  super.initState();
-  _searchController.addListener(_filterList);
+  void initState() {
+    super.initState();
+    _searchController.addListener(_filterList);
 
-  Future.delayed(Duration.zero, () {
-    final appData = Provider.of<AppData>(context, listen: false);
-    if (appData.players.isNotEmpty) {
-      setState(() {
-        selectedItem = appData.players[0];
-        _updateFilteredList(); // Inicializa filteredList
-      });
-    }
-  });
-}
-   @override
+    Future.delayed(Duration.zero, () {
+      final appData = Provider.of<AppData>(context, listen: false);
+      if (appData.players.isNotEmpty) {
+        setState(() {
+          selectedItem = appData.players[0];
+          _updateFilteredList(); // Inicializa filteredList
+        });
+      }
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose(); // Liberar el controlador al salir
     super.dispose();
   }
+
   // Actualizar la lista filtrada basada en la búsqueda
   void _filterList() {
     final query = _searchController.text.toLowerCase();
@@ -49,16 +51,17 @@ void initState() {
           .toList();
     });
   }
-   // Actualizar la lista filtrada al cambiar de categoría
-void _updateFilteredList() {
-  final query = _searchController.text.toLowerCase();
-  final list = currentList;
-  setState(() {
-    filteredList = query.isNotEmpty
-        ? list.where((item) => _getItem(item).name.toLowerCase().contains(query)).toList()
-        : list;
-  });
-}
+
+  // Actualizar la lista filtrada al cambiar de categoría
+  void _updateFilteredList() {
+    final query = _searchController.text.toLowerCase();
+    final list = currentList;
+    setState(() {
+      filteredList = query.isNotEmpty
+          ? list.where((item) => _getItem(item).name.toLowerCase().contains(query)).toList()
+          : list;
+    });
+  }
 
   dynamic _getItem(dynamic item) {
     if (item is Player || item is Manager || item is Trophy) {
@@ -80,17 +83,17 @@ void _updateFilteredList() {
     return [];
   }
 
- void _onCategoryChanged(String? newCategory) {
-  setState(() {
-    selectedCategory = newCategory;
-    _updateFilteredList(); // Actualizar la lista filtrada al cambiar de categoría
-    if (filteredList.isNotEmpty) {
-      selectedItem = filteredList[0];
-    } else {
-      selectedItem = null;
-    }
-  });
-}
+  void _onCategoryChanged(String? newCategory) {
+    setState(() {
+      selectedCategory = newCategory;
+      _updateFilteredList(); // Actualizar la lista filtrada al cambiar de categoría
+      if (filteredList.isNotEmpty) {
+        selectedItem = filteredList[0];
+      } else {
+        selectedItem = null;
+      }
+    });
+  }
 
   void _search() {
     // Aquí puedes realizar la búsqueda o cualquier acción
@@ -256,7 +259,6 @@ void _updateFilteredList() {
                                     );
                                   },
                                 ),
-
                                 const SizedBox(height: 20),
                                 Text(
                                   '${_getItem(selectedItem).name}',
