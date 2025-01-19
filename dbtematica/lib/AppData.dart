@@ -55,16 +55,20 @@ class AppData extends ChangeNotifier {
     }
   }
 
-void changeViewToDetails(BuildContext context, dynamic selectedItem) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => MobileDetailsLayout(item: selectedItem),
-    ),
-  );
-}
+  String getImageUrl(dynamic item) {
+    if (item == null) return '';
+    if (item is Player || item is Manager || item is Trophy) {
+      return 'http://localhost:3000/images/${item.image}';
+    }
+    return '';
+  }
 
-
-
-
+  void changeViewToDetails(BuildContext context, dynamic selectedItem) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MobileDetailsLayout(item: selectedItem),
+      ),
+    );
+  }
 }

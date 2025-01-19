@@ -163,24 +163,18 @@ class _DesktopLayout extends State<DesktopLayout> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.network(
-                                  'http://localhost:3000/images/${_getItem(item).image}',
+                                  Provider.of<AppData>(context, listen: false).getImageUrl(item),
                                   width: 80,
                                   height: 80,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
+                                  loadingBuilder: (context, child, loadingProgress) {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  (loadingProgress
-                                                          .expectedTotalBytes ??
-                                                      1)
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  (loadingProgress.expectedTotalBytes ?? 1)
                                               : null,
                                         ),
                                       );
@@ -231,24 +225,18 @@ class _DesktopLayout extends State<DesktopLayout> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.network(
-                                  'http://localhost:3000/images/${_getItem(selectedItem).image}',
+                                  Provider.of<AppData>(context, listen: false).getImageUrl(selectedItem),
                                   width: 340,
                                   height: 340,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
+                                  loadingBuilder: (context, child, loadingProgress) {
                                     if (loadingProgress == null) {
                                       return child;
                                     } else {
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  (loadingProgress
-                                                          .expectedTotalBytes ??
-                                                      1)
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  (loadingProgress.expectedTotalBytes ?? 1)
                                               : null,
                                         ),
                                       );
@@ -260,6 +248,7 @@ class _DesktopLayout extends State<DesktopLayout> {
                                     );
                                   },
                                 ),
+
                                 const SizedBox(height: 20),
                                 Text(
                                   '${_getItem(selectedItem).name}',
