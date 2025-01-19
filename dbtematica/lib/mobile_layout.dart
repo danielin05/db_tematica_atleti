@@ -15,21 +15,50 @@ class MobileLayout extends StatefulWidget {
 class _MobileLayoutState extends State<MobileLayout> {
   String? selectedCategory = 'Players';
   dynamic selectedItem;
+  // Nueva lista filtrada
+  List<dynamic> filteredList = [];
   TextEditingController _searchController = TextEditingController(); // Controlador para la búsqueda
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      final appData = Provider.of<AppData>(context, listen: false);
-      if (appData.players.isNotEmpty) {
-        setState(() {
-          selectedItem = appData.players[0];
-        });
-      }
+void initState() {
+  super.initState();
+  _searchController.addListener(_filterList);
+
+  Future.delayed(Duration.zero, () {
+    final appData = Provider.of<AppData>(context, listen: false);
+    if (appData.players.isNotEmpty) {
+      setState(() {
+        selectedItem = appData.players[0];
+        _updateFilteredList(); // Inicializa filteredList
+      });
+    }
+  });
+}
+   @override
+  void dispose() {
+    _searchController.dispose(); // Liberar el controlador al salir
+    super.dispose();
+  }
+  // Actualizar la lista filtrada basada en la búsqueda
+  void _filterList() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      filteredList = currentList
+          .where((item) =>
+              _getItem(item).name.toLowerCase().contains(query)) // Filtrar por nombre
+          .toList();
     });
   }
-
+   // Actualizar la lista filtrada al cambiar de categoría
+void _updateFilteredList() {
+  final query = _searchController.text.toLowerCase();
+  final list = currentList;
+  setState(() {
+    filteredList = query.isNotEmpty
+        ? list.where((item) => _getItem(item).name.toLowerCase().contains(query)).toList()
+        : list;
+  });
+}
   dynamic _getItem(dynamic item) {
     if (item is Player || item is Manager || item is Trophy) {
       return item;
@@ -51,12 +80,16 @@ class _MobileLayoutState extends State<MobileLayout> {
   }
 
   void _onCategoryChanged(String? newCategory) {
-    setState(() {
-      selectedCategory = newCategory;
-      final list = currentList;
-      selectedItem = list.isNotEmpty ? list[0] : null;
-    });
-  }
+  setState(() {
+    selectedCategory = newCategory;
+    _updateFilteredList(); // Actualizar la lista filtrada al cambiar de categoría
+    if (filteredList.isNotEmpty) {
+      selectedItem = filteredList[0];
+    } else {
+      selectedItem = null;
+    }
+  });
+}
 
 void _navigateToDetails() {
   final appData = Provider.of<AppData>(context, listen: false); // Obtienes el contexto de AppData
@@ -122,20 +155,19 @@ void _navigateToDetails() {
             child:Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      labelText: 'Buscar...',
-                      border: OutlineInputBorder(),
-                    ),
-                    onSubmitted: (value) {
-                      _search(); // Llamada cuando se presiona Enter
-                    },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          decoration: InputDecoration(
+                            labelText: 'Buscar...',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: _search, // Llamada cuando se hace clic en la lupa
                 ),
               ],
             ),
@@ -145,9 +177,9 @@ void _navigateToDetails() {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(8.0),
-              itemCount: currentList.length,
+              itemCount: filteredList.length, // Cambiado de currentList.length a filteredList.length
               itemBuilder: (context, index) {
-                final item = currentList[index];
+                final item = filteredList[index]; // Cambiado de currentList a filteredList
                 return GestureDetector(
                   onTap: () => setState(() => selectedItem = item),
                   child: Card(

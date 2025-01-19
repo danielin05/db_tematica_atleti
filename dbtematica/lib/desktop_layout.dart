@@ -15,20 +15,50 @@ class DesktopLayout extends StatefulWidget {
 class _DesktopLayout extends State<DesktopLayout> {
   String? selectedCategory = 'Players';
   dynamic selectedItem;
+  // Nueva lista filtrada
+  List<dynamic> filteredList = [];
   TextEditingController _searchController = TextEditingController(); // Controlador para la búsqueda
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      final appData = Provider.of<AppData>(context, listen: false);
-      if (appData.players.isNotEmpty) {
-        setState(() {
-          selectedItem = appData.players[0];
-        });
-      }
+void initState() {
+  super.initState();
+  _searchController.addListener(_filterList);
+
+  Future.delayed(Duration.zero, () {
+    final appData = Provider.of<AppData>(context, listen: false);
+    if (appData.players.isNotEmpty) {
+      setState(() {
+        selectedItem = appData.players[0];
+        _updateFilteredList(); // Inicializa filteredList
+      });
+    }
+  });
+}
+   @override
+  void dispose() {
+    _searchController.dispose(); // Liberar el controlador al salir
+    super.dispose();
+  }
+  // Actualizar la lista filtrada basada en la búsqueda
+  void _filterList() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      filteredList = currentList
+          .where((item) =>
+              _getItem(item).name.toLowerCase().contains(query)) // Filtrar por nombre
+          .toList();
     });
   }
+   // Actualizar la lista filtrada al cambiar de categoría
+void _updateFilteredList() {
+  final query = _searchController.text.toLowerCase();
+  final list = currentList;
+  setState(() {
+    filteredList = query.isNotEmpty
+        ? list.where((item) => _getItem(item).name.toLowerCase().contains(query)).toList()
+        : list;
+  });
+}
 
   dynamic _getItem(dynamic item) {
     if (item is Player || item is Manager || item is Trophy) {
@@ -50,13 +80,17 @@ class _DesktopLayout extends State<DesktopLayout> {
     return [];
   }
 
-  void _onCategoryChanged(String? newCategory) {
-    setState(() {
-      selectedCategory = newCategory;
-      final list = currentList;
-      selectedItem = list.isNotEmpty ? list[0] : null;
-    });
-  }
+ void _onCategoryChanged(String? newCategory) {
+  setState(() {
+    selectedCategory = newCategory;
+    _updateFilteredList(); // Actualizar la lista filtrada al cambiar de categoría
+    if (filteredList.isNotEmpty) {
+      selectedItem = filteredList[0];
+    } else {
+      selectedItem = null;
+    }
+  });
+}
 
   void _search() {
     // Aquí puedes realizar la búsqueda o cualquier acción
@@ -85,7 +119,7 @@ class _DesktopLayout extends State<DesktopLayout> {
         backgroundColor: color3,
       ),
       body: Container(
-        color: color2,
+        color: Colors.white,
         child: Row(
           children: [
             Container(
@@ -107,18 +141,11 @@ class _DesktopLayout extends State<DesktopLayout> {
                                   labelText: 'Buscar...',
                                   border: OutlineInputBorder(),
                                 ),
-                                onSubmitted: (value) {
-                                  _search(); // Llamada cuando se presiona Enter
-                                },
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.search),
-                              onPressed: _search, // Llamada cuando se hace clic en la lupa
                             ),
                           ],
                         ),
-                        SizedBox(height: 16), // Espacio entre la barra de búsqueda y el Dropdown
+                        SizedBox(height: 16), // Espacio entre barra y dropdown
                         // DropdownButton
                         DropdownButton<String>(
                           dropdownColor: color3,
@@ -147,9 +174,9 @@ class _DesktopLayout extends State<DesktopLayout> {
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(14.0),
-                      itemCount: currentList.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (context, index) {
-                        final item = currentList[index];
+                        final item = filteredList[index];
                         return GestureDetector(
                           onTap: () => setState(() => selectedItem = item),
                           child: Container(
@@ -166,25 +193,6 @@ class _DesktopLayout extends State<DesktopLayout> {
                                   Provider.of<AppData>(context, listen: false).getImageUrl(item),
                                   width: 80,
                                   height: 80,
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                                  (loadingProgress.expectedTotalBytes ?? 1)
-                                              : null,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Text(
-                                      'ERROR trying to load an image',
-                                    );
-                                  },
                                 ),
                                 const SizedBox(width: 16.0),
                                 Expanded(
