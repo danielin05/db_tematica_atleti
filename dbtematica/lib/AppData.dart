@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'Manager.dart';
 import 'Player.dart';
 import 'Trophy.dart';
+import 'mobile_details_layout.dart'; // Importamos MobileLayout
 
 class AppData extends ChangeNotifier {
   List<Manager> _managers = [];
@@ -53,4 +54,17 @@ class AppData extends ChangeNotifier {
       print('Error fetching $type data: $error');
     }
   }
+
+void changeViewToDetails(BuildContext context, dynamic selectedItem) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => MobileDetailsLayout(item: selectedItem),
+    ),
+  );
+}
+
+
+
+
 }

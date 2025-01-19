@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AppData.dart';
 import 'desktop_layout.dart';
+import 'mobile_layout.dart'; // Importamos MobileLayout
 
 void main() {
   runApp(
@@ -53,7 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
           body: appData.isDataLoaded
               ? LayoutBuilder(
                   builder: (context, constraints) {
-                    return const DesktopLayout();
+                    // Si el ancho de la ventana es menor o igual a 450px, usa MobileLayout
+                    if (constraints.maxWidth <= 530) {
+                      return const MobileLayout();
+                    } else {
+                      return const DesktopLayout();
+                    }
                   },
                 )
               : const Center(child: CircularProgressIndicator()),
