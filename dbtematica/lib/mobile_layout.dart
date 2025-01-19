@@ -209,64 +209,75 @@ class _MobileLayoutState extends State<MobileLayout> {
             ),
           ),
 
-          // Detalles del elemento seleccionado
-          if (selectedItem != null)
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              color: color3,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${_getItem(selectedItem).name}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: color2,
-                          ),
+         if (selectedItem != null)
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            color: color3,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Imagen del item seleccionado
+                Image.network(
+                  'http://localhost:3000/images/${_getItem(selectedItem).image}', // Usa la imagen del item
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.image_not_supported),
+                ),
+                const SizedBox(width: 10), // Espacio entre la imagen y la información
+
+                // Información del item seleccionado
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${_getItem(selectedItem).name}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: color2,
                         ),
-                        const SizedBox(height: 10),
-                        if (selectedItem is Manager)
-                          Text(
-                            'Years: ${selectedItem.years}, Style: ${selectedItem.style}',
-                            style: const TextStyle(color: color2),
-                          )
-                        else if (selectedItem is Player)
-                          Text(
-                            'Age: ${selectedItem.age}, Position: ${selectedItem.position}',
-                            style: const TextStyle(color: color2),
-                          )
-                        else if (selectedItem is Trophy)
-                          Text(
-                            'Description: ${selectedItem.description}',
-                            style: const TextStyle(color: color2),
-                          ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 10),
+                      if (selectedItem is Manager)
+                        Text(
+                          'Years: ${selectedItem.years}, Style: ${selectedItem.style}',
+                          style: const TextStyle(color: color2),
+                        )
+                      else if (selectedItem is Player)
+                        Text(
+                          'Age: ${selectedItem.age}, Position: ${selectedItem.position}',
+                          style: const TextStyle(color: color2),
+                        )
+                      else if (selectedItem is Trophy)
+                        Text(
+                          'Description: ${selectedItem.description}',
+                          style: const TextStyle(color: color2),
+                        ),
+                    ],
                   ),
-                  TextButton.icon(
-                    onPressed: _navigateToDetails,
-                    icon: const Icon(Icons.arrow_forward, color: color2),
-                    label: const Text(
-                      "See More",
-                      style: TextStyle(color: color2),
-                    ),
-                  )
-                ],
-              ),
-            )
-          else
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Selecciona un elemento para ver los detalles',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
+                ),
+                TextButton.icon(
+                  onPressed: _navigateToDetails,
+                  icon: const Icon(Icons.arrow_forward, color: color2),
+                  label: const Text(
+                    "See More",
+                    style: TextStyle(color: color2),
+                  ),
+                )
+              ],
             ),
+          )
+        else
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Selecciona un elemento para ver los detalles',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ),
         ],
       ),
     );
